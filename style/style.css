@@ -5,7 +5,8 @@ body {
 
 .container,
 .calculator-body,
-.calculator-parts {
+.calculator-parts,
+.display-piece {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,4 +32,19 @@ body {
     border-radius: 50px;
 
     flex-direction: column;
+}
+
+.display-piece {
+    height: 25%;
+    width: 100%;
+    background: rgb(51, 40, 20);
+    border-radius: 50px 50px 0 0;
+}
+
+.display-window {
+    height: 60%;
+    width: 75%;
+    background:rgb(146, 153, 107);
+    border-radius: 20px;
+    margin-top: 10px;
 }
