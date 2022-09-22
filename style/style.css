@@ -1,0 +1,34 @@
+body {
+    background: rgb(129, 199, 211);
+    margin: 0 auto;
+}
+
+.container,
+.calculator-body,
+.calculator-parts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.calculator-body {
+    height: 700px;
+    width: 450px;
+    background: rgb(244, 180, 8);
+    border: 10px solid rgb(189, 127, 33);
+    border-radius: 75px;
+}
+
+.calculator-parts {
+    height: 650px;
+    width: 400px;
+    background: rgb(250, 206, 76);
+    border-radius: 50px;
+
+    flex-direction: column;
+}
