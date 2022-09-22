@@ -74,6 +74,11 @@ button {
     align-items: center;
 }
 
+.display-window > p {
+    padding-top: 15px;
+    padding-right: 10px;
+}
+
 .buttons {
     height: 75%;
     width: 100%;
