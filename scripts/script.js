@@ -49,7 +49,7 @@ For each button, when clicked...
 const display = document.querySelector(".display-text");
 const buttons = document.querySelectorAll("button");
 
-let allClicks = []
+let allClicks = [];
 let tempString = "";
 
 buttons.forEach(btn => {
@@ -62,6 +62,7 @@ function displayText(e) {
     switch (click) {
         case "AC":
             allClicks = [];
+            tempString = "";
             display.textContent = "0";
             break;
         case "=":
