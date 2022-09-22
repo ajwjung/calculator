@@ -49,6 +49,41 @@ For each button, when clicked...
 const display = document.querySelector(".display-text");
 const buttons = document.querySelectorAll("button");
 
+let allClicks = []
+let tempString = "";
+
 buttons.forEach(btn => {
-    btn.addEventListener("click", clickHandler);
+    btn.addEventListener("click", displayText);
 })
+
+function displayText(e) {
+    const click = e.target.textContent;
+
+    switch (click) {
+        case "AC":
+            allClicks = [];
+            display.textContent = "0";
+            break;
+        case "=":
+            allClicks.push(tempString);
+            tempString = "";
+            display.textContent = allClicks.join("");
+            break;
+        case "+":
+        case "-":
+        case "×":
+        case "÷":
+            allClicks.push(tempString);
+            tempString = "";
+            allClicks.push(click);
+            break;
+        case "0":
+            tempString += click;
+            display.textContent = "0";
+            break;
+        default:
+            tempString += click;
+            display.textContent = tempString;
+            break;
+    }
+}
