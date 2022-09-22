@@ -13,10 +13,24 @@ button {
 .container,
 .calculator-body,
 .calculator-parts,
-.display-piece {
+.display-piece,
+.display-window,
+.buttons {
     display: flex;
+}
+
+.container,
+.calculator-body,
+.calculator-parts,
+.display-piece,
+.buttons {
     justify-content: center;
     align-items: center;
+}
+
+.calculator-parts,
+.buttons {
+    flex-direction: column;
 }
 
 .container {
@@ -37,8 +51,6 @@ button {
     width: 400px;
     background: rgb(250, 206, 76);
     border-radius: 50px;
-
-    flex-direction: column;
 }
 
 .display-piece {
@@ -54,15 +66,13 @@ button {
     background:rgb(146, 153, 107);
     border-radius: 20px;
     margin-top: 10px;
+    justify-content: end;
+    align-items: center;
 }
 
 .buttons {
     height: 75%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .buttons > * {
