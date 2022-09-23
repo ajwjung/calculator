@@ -21,6 +21,15 @@ const operate = function(n1, n2, operator) {
     }
 }
 
+function resizeToFit() {
+    let fontSize = window.getComputedStyle(displayWindow).fontSize;
+    display.style.fontSize = (parseFloat(fontSize) - 1) + "px";
+
+    if (display.clientHeight >= displayWindow.clientHeight) {
+        resizeToFit();
+    }
+}
+
 /*
 Add event listeners to buttons
 - If button.textContent == "blah", 
@@ -47,6 +56,7 @@ For each button, when clicked...
 */
 
 const display = document.querySelector(".display-text");
+const displayWindow = document.querySelector(".display-window");
 const buttons = document.querySelectorAll("button");
 
 let allClicks = [];
@@ -58,6 +68,12 @@ buttons.forEach(btn => {
 
 function checkLength(arr) {
     if (arr.length == 3) return true;
+}
+
+function getShortString(num) {
+    const str = num + ""; // convert number to string
+
+    return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
 function displayText(e) {
@@ -87,7 +103,7 @@ function displayText(e) {
                 total = operate(n1, n2, operator);
                 allClicks = []; // reset the list
                 allClicks.push(total); // add the new total
-                display.textContent = total;
+                display.textContent = getShortString(total);
             }
 
             allClicks.push(click);
@@ -105,7 +121,6 @@ function displayText(e) {
 
 /*
 Things to fix 
-- Long numbers going outside of the box
 - Equals sign not performing calculation / returning total
 - Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
