@@ -76,6 +76,17 @@ function getShortString(num) {
     return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
+function doOperation(arr) {
+    if (checkLength(arr)) {
+        const [n1, operator, n2] = arr;
+
+        total = operate(n1, n2, operator);
+        allClicks = []; // reset the list
+        allClicks.push(total); // add the new total
+        display.textContent = getShortString(total);
+    }
+}
+
 function displayText(e) {
     const click = e.target.textContent;
 
@@ -96,16 +107,7 @@ function displayText(e) {
         case "÷":
             allClicks.push(tempString); // last number appended
             tempString = "";
-
-            if (checkLength(allClicks)) {
-                const [n1, operator, n2] = allClicks;
-
-                total = operate(n1, n2, operator);
-                allClicks = []; // reset the list
-                allClicks.push(total); // add the new total
-                display.textContent = getShortString(total);
-            }
-
+            doOperation(allClicks);
             allClicks.push(click);
             break;
         case "0":
