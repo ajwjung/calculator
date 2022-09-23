@@ -21,15 +21,6 @@ const operate = function(n1, n2, operator) {
     }
 }
 
-function resizeToFit() {
-    let fontSize = window.getComputedStyle(displayWindow).fontSize;
-    display.style.fontSize = (parseFloat(fontSize) - 1) + "px";
-
-    if (display.clientHeight >= displayWindow.clientHeight) {
-        resizeToFit();
-    }
-}
-
 /*
 Add event listeners to buttons
 - If button.textContent == "blah", 
@@ -66,29 +57,12 @@ buttons.forEach(btn => {
     btn.addEventListener("click", displayText);
 })
 
-// function checkLength(arr) {
-//     if (arr.length == 3) return true;
-// }
-
 function getShortString(num) {
     const str = num + ""; // convert number to string
 
     return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
-// // For operator clicks only
-// function doOperation(arr) {
-//     if (checkLength(arr)) {
-//         const [n1, operator, n2] = arr;
-
-//         total = operate(n1, n2, operator);
-//         allClicks = []; // reset the list
-//         allClicks.push(total); // add the new total
-//         display.textContent = getShortString(total);
-//     }
-// }
-
-// For equal sign clicks only
 function doFinalCalculation(arr) {
     const [n1, operator, n2] = arr;
     total = operate(n1, n2, operator);
