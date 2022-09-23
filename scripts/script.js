@@ -66,9 +66,9 @@ buttons.forEach(btn => {
     btn.addEventListener("click", displayText);
 })
 
-function checkLength(arr) {
-    if (arr.length == 3) return true;
-}
+// function checkLength(arr) {
+//     if (arr.length == 3) return true;
+// }
 
 function getShortString(num) {
     const str = num + ""; // convert number to string
@@ -76,17 +76,17 @@ function getShortString(num) {
     return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
-// For operator clicks only
-function doOperation(arr) {
-    if (checkLength(arr)) {
-        const [n1, operator, n2] = arr;
+// // For operator clicks only
+// function doOperation(arr) {
+//     if (checkLength(arr)) {
+//         const [n1, operator, n2] = arr;
 
-        total = operate(n1, n2, operator);
-        allClicks = []; // reset the list
-        allClicks.push(total); // add the new total
-        display.textContent = getShortString(total);
-    }
-}
+//         total = operate(n1, n2, operator);
+//         allClicks = []; // reset the list
+//         allClicks.push(total); // add the new total
+//         display.textContent = getShortString(total);
+//     }
+// }
 
 // For equal sign clicks only
 function doFinalCalculation(arr) {
@@ -106,15 +106,28 @@ function displayText(e) {
             display.textContent = "0";
             break;
         case "=":
-            if (tempString.length == 0) {
-                allClicks.push(allClicks[0]); // use n1 as n2
-                doFinalCalculation(allClicks);
-                console.log(`No temp string: ${allClicks}`);
-            } else if (tempString.length > 0) {
-                allClicks.push(tempString);
-                tempString = "";
-                doFinalCalculation(allClicks);
-                console.log(`Yes temp string: ${allClicks}`);
+            if (allClicks.length == 0) {
+                if (tempString.length > 0) {
+                    allClicks.push(tempString);
+                    display.textContent = tempString;
+                    tempString = "";
+                }
+            } else if (allClicks.length == 2) {
+                if (tempString.length > 0) {
+                    allClicks.push(tempString);
+                    tempString = "";
+                    doFinalCalculation(allClicks);
+                } else {
+                    allClicks.push(allClicks[0]);
+                    doFinalCalculation(allClicks);
+                };
+            } else if (allClicks.length == 3) {
+                if (tempString.length > 0) {
+                    allClicks[2] = tempString;
+                    console.log(allClicks);
+                    tempString = "";
+                    doFinalCalculation(allClicks);
+                }
             }
             // display.textContent = allClicks.join("");
             break;
@@ -123,19 +136,28 @@ function displayText(e) {
         case "×":
         case "÷":
             if (allClicks.length == 0) {
-                allClicks.push(tempString);
-                tempString = "";
-                allClicks.push(click);
+                if (tempString.length > 0) {
+                    allClicks.push(tempString);
+                    tempString = "";
+                    allClicks.push(click);
+                }
             } else if (allClicks.length == 2) {
-                allClicks.push(tempString);
-                tempString = "";
-                doFinalCalculation(allClicks);
-                allClicks[1] = click;
+                if (tempString.length > 0) {
+                    allClicks.push(tempString);
+                    tempString = "";
+                    doFinalCalculation(allClicks);
+                    allClicks[1] = click;
+                }
             } else if (allClicks.length == 3) {
-                allClicks[2] = tempString;
-                tempString = "";
-                doFinalCalculation(allClicks);
-                allClicks[1] = click;
+                if (tempString.length > 0) {
+                    allClicks[2] = tempString;
+                    tempString = "";
+                    doFinalCalculation(allClicks);
+                    allClicks[1] = click;
+                    console.log(allClicks);
+                } else {
+                    allClicks[1] = click;
+                }
             }
             break;
         case "0":
@@ -151,8 +173,8 @@ function displayText(e) {
 
 /*
 Things to fix 
-- Equals sign only performing calculation the first time it's clicked
-- Need to handle event if multiple operators clicked in succession
+- Clicking a number then the equal sign then trying to perform a string of calculations
+    just concatenates everything onto the display window
 - Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
 */
