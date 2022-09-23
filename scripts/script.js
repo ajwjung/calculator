@@ -139,10 +139,10 @@ function displayText(e) {
                 tempString += click;
                 display.textContent = "0";
             } else if (tempString == "0") {
-                display.textContent = "0";
+                display.textContent = click;
             } else {
                 tempString += click;
-                display.textContent(tempString);
+                display.textContent = tempString;
             }
             break;
         default:
@@ -162,5 +162,4 @@ function displayText(e) {
 Things to fix 
 - Clicking a number then the equal sign then trying to perform a string of calculations
     just concatenates everything onto the display window
-- Punching in multiple 0s before another number leaves leading zeroes on screen
 */
