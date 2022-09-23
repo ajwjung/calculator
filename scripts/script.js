@@ -76,6 +76,7 @@ function getShortString(num) {
     return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
+// For operator clicks only
 function doOperation(arr) {
     if (checkLength(arr)) {
         const [n1, operator, n2] = arr;
@@ -85,6 +86,14 @@ function doOperation(arr) {
         allClicks.push(total); // add the new total
         display.textContent = getShortString(total);
     }
+}
+
+// For equal sign clicks only
+function doFinalCalculation(arr) {
+    const [n1, operator, n2] = arr;
+    total = operate(n1, n2, operator);
+    allClicks[0] = total;
+    display.textContent = getShortString(total);
 }
 
 function displayText(e) {
@@ -97,9 +106,15 @@ function displayText(e) {
             display.textContent = "0";
             break;
         case "=":
-            allClicks.push(tempString);
-            tempString = "";
-            display.textContent = allClicks.join("");
+            if (tempString.length == 0 && allClicks.length == 2) {
+                allClicks.push(allClicks[0]); // use n1 as n2
+                doFinalCalculation(allClicks);
+            } else if (tempString.length > 0 && allClicks.length == 2) {
+                allClicks.push(tempString);
+                tempString = "";
+                doFinalCalculation(allClicks);
+            }
+            // display.textContent = allClicks.join("");
             break;
         case "+":
         case "-":
@@ -123,7 +138,8 @@ function displayText(e) {
 
 /*
 Things to fix 
-- Equals sign not performing calculation / returning total
+- Equals sign only performing calculation the first time it's clicked
 - Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
+- Adding numbers concatenates instead (tempString is being kept as string)
 */
