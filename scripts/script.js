@@ -106,13 +106,15 @@ function displayText(e) {
             display.textContent = "0";
             break;
         case "=":
-            if (tempString.length == 0 && allClicks.length == 2) {
+            if (tempString.length == 0) {
                 allClicks.push(allClicks[0]); // use n1 as n2
                 doFinalCalculation(allClicks);
-            } else if (tempString.length > 0 && allClicks.length == 2) {
+                console.log(`No temp string: ${allClicks}`);
+            } else if (tempString.length > 0) {
                 allClicks.push(tempString);
                 tempString = "";
                 doFinalCalculation(allClicks);
+                console.log(`Yes temp string: ${allClicks}`);
             }
             // display.textContent = allClicks.join("");
             break;
@@ -120,10 +122,21 @@ function displayText(e) {
         case "-":
         case "×":
         case "÷":
-            allClicks.push(tempString); // last number appended
-            tempString = "";
-            doOperation(allClicks);
-            allClicks.push(click);
+            if (allClicks.length == 0) {
+                allClicks.push(tempString);
+                tempString = "";
+                allClicks.push(click);
+            } else if (allClicks.length == 2) {
+                allClicks.push(tempString);
+                tempString = "";
+                doFinalCalculation(allClicks);
+                allClicks[1] = click;
+            } else if (allClicks.length == 3) {
+                allClicks[2] = tempString;
+                tempString = "";
+                doFinalCalculation(allClicks);
+                allClicks[1] = click;
+            }
             break;
         case "0":
             tempString += click;
@@ -139,6 +152,7 @@ function displayText(e) {
 /*
 Things to fix 
 - Equals sign only performing calculation the first time it's clicked
+- Need to handle event if multiple operators clicked in succession
 - Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
 */
