@@ -1,4 +1,4 @@
-const add = (n1, n2) => n1 + n2;
+const add = (n1, n2) => parseInt(n1) + parseInt(n2);
 
 const subtract = (n1, n2) => n1 - n2;
 
@@ -141,5 +141,4 @@ Things to fix
 - Equals sign only performing calculation the first time it's clicked
 - Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
-- Adding numbers concatenates instead (tempString is being kept as string)
 */
