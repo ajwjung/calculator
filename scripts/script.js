@@ -135,12 +135,25 @@ function displayText(e) {
             }
             break;
         case "0":
-            tempString += click;
-            display.textContent = "0";
+            if (tempString.length == 0) {
+                tempString += click;
+                display.textContent = "0";
+            } else if (tempString == "0") {
+                display.textContent = "0";
+            } else {
+                tempString += click;
+                display.textContent(tempString);
+            }
             break;
         default:
-            tempString += click;
-            display.textContent = tempString;
+            if (tempString == "0") {
+                tempString = "";
+                tempString += click;
+                display.textContent = tempString;
+            } else {
+                tempString += click;
+                display.textContent = tempString;
+            }
             break;
     }
 }
@@ -149,6 +162,5 @@ function displayText(e) {
 Things to fix 
 - Clicking a number then the equal sign then trying to perform a string of calculations
     just concatenates everything onto the display window
-- Entering 0 changes display to 0 even though it's being registered properly
 - Punching in multiple 0s before another number leaves leading zeroes on screen
 */
