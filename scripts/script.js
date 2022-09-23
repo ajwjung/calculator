@@ -12,9 +12,9 @@ const operate = function(n1, n2, operator) {
             return add(n1, n2);
         case "-":
             return subtract(n1, n2);
-        case "*":
+        case "×":
             return multiply(n1, n2);
-        case "/":
+        case "÷":
             return divide(n1, n2);
         default:
             return "ERROR: Unknown operator"
@@ -56,6 +56,10 @@ buttons.forEach(btn => {
     btn.addEventListener("click", displayText);
 })
 
+function checkLength(arr) {
+    if (arr.length == 3) return true;
+}
+
 function displayText(e) {
     const click = e.target.textContent;
 
@@ -74,8 +78,18 @@ function displayText(e) {
         case "-":
         case "×":
         case "÷":
-            allClicks.push(tempString);
+            allClicks.push(tempString); // last number appended
             tempString = "";
+
+            if (checkLength(allClicks)) {
+                const [n1, operator, n2] = allClicks;
+
+                total = operate(n1, n2, operator);
+                allClicks = []; // reset the list
+                allClicks.push(total); // add the new total
+                display.textContent = total;
+            }
+
             allClicks.push(click);
             break;
         case "0":
@@ -88,3 +102,11 @@ function displayText(e) {
             break;
     }
 }
+
+/*
+Things to fix 
+- Long numbers going outside of the box
+- Equals sign not performing calculation / returning total
+- Entering 0 changes display to 0 even though it's being registered properly
+- Punching in multiple 0s before another number leaves leading zeroes on screen
+*/
