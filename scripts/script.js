@@ -54,10 +54,22 @@ function displayText(e) {
         - tempString holds the current (running) number
         - allClicks holds up to 3 elements: [n1, operator, n2]
     */
-   
+
     const click = e.target.textContent;
 
     switch (click) {
+        case "←":
+            const strLength = tempString.length;
+            if (tempString.length > 1) {
+                tempString = tempString.slice(0, strLength - 1);
+                display.textContent = tempString;
+            } else if (tempString.length == 1) {
+                tempString = "0";
+                display.textContent = tempString;
+            } else {
+                display.textContent = "0";
+            }
+            break;
         case "AC":
             body.style.backgroundColor = "rgb(129, 199, 211)";
             allClicks = [];
