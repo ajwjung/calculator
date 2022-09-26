@@ -65,10 +65,10 @@ function displayText(e) {
         case "←":
             if (strLength > 1) {
                 tempString = tempString.slice(0, strLength - 1);
-                display.textContent = tempString;
+                display.textContent = getShortString(tempString);
             } else if (strLength == 1) {
                 tempString = "0";
-                display.textContent = tempString;
+                display.textContent = getShortString(tempString);
             }
             break;
         case "AC":
@@ -81,7 +81,7 @@ function displayText(e) {
             if (arrLength == 0) {
                 if (strLength > 0) {
                     allClicks.push(tempString);
-                    display.textContent = tempString;
+                    display.textContent = getShortString(tempString);
                     tempString = "";
                 }
             } else if (arrLength == 2) {
@@ -147,10 +147,10 @@ function displayText(e) {
             if (tempString == "0") {
                 tempString = "";
                 tempString += click;
-                display.textContent = tempString;
+                display.textContent = getShortString(tempString);
             } else {
                 tempString += click;
-                display.textContent = tempString;
+                display.textContent = getShortString(tempString);
             }
             break;
     }
