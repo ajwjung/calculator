@@ -59,6 +59,8 @@ function displayText(e) {
     const strLength = tempString.length;
     const arrLength = allClicks.length;
 
+    body.style.backgroundColor = "rgb(129, 199, 211)";
+
     switch (click) {
         case "←":
             if (strLength > 1) {
