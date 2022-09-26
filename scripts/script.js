@@ -56,18 +56,17 @@ function displayText(e) {
     */
 
     const click = e.target.textContent;
+    const strLength = tempString.length;
+    const arrLength = allClicks.length;
 
     switch (click) {
         case "←":
-            const strLength = tempString.length;
-            if (tempString.length > 1) {
+            if (strLength > 1) {
                 tempString = tempString.slice(0, strLength - 1);
                 display.textContent = tempString;
-            } else if (tempString.length == 1) {
+            } else if (strLength == 1) {
                 tempString = "0";
                 display.textContent = tempString;
-            } else {
-                display.textContent = "0";
             }
             break;
         case "AC":
@@ -77,14 +76,14 @@ function displayText(e) {
             display.textContent = "0";
             break;
         case "=":
-            if (allClicks.length == 0) {
-                if (tempString.length > 0) {
+            if (arrLength == 0) {
+                if (strLength > 0) {
                     allClicks.push(tempString);
                     display.textContent = tempString;
                     tempString = "";
                 }
-            } else if (allClicks.length == 2) {
-                if (tempString.length > 0) {
+            } else if (arrLength == 2) {
+                if (strLength > 0) {
                     allClicks.push(tempString);
                     tempString = "";
                     doFinalCalculation(allClicks);
@@ -92,8 +91,8 @@ function displayText(e) {
                     allClicks.push(allClicks[0]);
                     doFinalCalculation(allClicks);
                 };
-            } else if (allClicks.length == 3) {
-                if (tempString.length > 0) {
+            } else if (arrLength == 3) {
+                if (strLength > 0) {
                     allClicks[2] = tempString;
                     tempString = "";
                     doFinalCalculation(allClicks);
@@ -104,23 +103,23 @@ function displayText(e) {
         case "-":
         case "×":
         case "÷":
-            if (allClicks.length == 0) {
-                if (tempString.length > 0) {
+            if (arrLength == 0) {
+                if (strLength > 0) {
                     allClicks.push(tempString);
                     tempString = "";
                     allClicks.push(click);
                 }
-            } else if (allClicks.length == 1) {
+            } else if (arrLength == 1) {
                 allClicks.push(click);
-            } else if (allClicks.length == 2) {
-                if (tempString.length > 0) {
+            } else if (arrLength == 2) {
+                if (strLength > 0) {
                     allClicks.push(tempString);
                     tempString = "";
                     doFinalCalculation(allClicks);
                     allClicks[1] = click;
                 }
-            } else if (allClicks.length == 3) {
-                if (tempString.length > 0) {
+            } else if (arrLength == 3) {
+                if (strLength > 0) {
                     allClicks[2] = tempString;
                     tempString = "";
                     doFinalCalculation(allClicks);
@@ -132,7 +131,7 @@ function displayText(e) {
             }
             break;
         case "0":
-            if (tempString.length == 0) {
+            if (strLength == 0) {
                 tempString += click;
                 display.textContent = "0";
             } else if (tempString == "0") {
