@@ -1,55 +1,3 @@
-const add = (n1, n2) => parseInt(n1) + parseInt(n2);
-
-const subtract = (n1, n2) => n1 - n2;
-
-const multiply = (n1, n2) => n1 * n2;
-
-const divide = (n1, n2) => n1 / n2;
-
-const operate = function(n1, n2, operator) {
-    switch (operator) {
-        case "+":
-            return add(n1, n2);
-        case "-":
-            return subtract(n1, n2);
-        case "×":
-            return multiply(n1, n2);
-        case "÷":
-            if (n2 == 0) {
-                body.style.backgroundColor = "coral";
-                return "really :/";
-            }
-            return divide(n1, n2);
-        default:
-            return "ERROR: Unknown operator"
-    }
-}
-
-/*
-Add event listeners to buttons
-- If button.textContent == "blah", 
-    then change display.textContent to button.textContent
-- For serial clicks: need a temporary variable to hold the string of numbers
-
-For each button, when clicked...
-- Get the textContent
-- If textContent is...
-    a) "AC"
-        - clear the storage array
-        - display "0" on screen
-    b) "="
-        - append full number string to array
-        - perform calculation on the last 2 numbers
-        - display calculated value 
-    c) A number
-        - concatenate number to temp string
-        - display the temp string
-    d) An operator
-        - append full number string
-        - perform calculation on the last 2 numbers
-        - display calculated value
-*/
-
 const body = document.querySelector("body");
 const display = document.querySelector(".display-text");
 const displayWindow = document.querySelector(".display-window");
@@ -68,6 +16,30 @@ function getShortString(num) {
     return (str.length > 9) ? str.slice(0, 9) : str;
 }
 
+const add = (n1, n2) => parseInt(n1) + parseInt(n2);
+const subtract = (n1, n2) => n1 - n2;
+const multiply = (n1, n2) => n1 * n2;
+const divide = (n1, n2) => n1 / n2;
+
+function operate(n1, n2, operator) {
+    switch (operator) {
+        case "+":
+            return add(n1, n2);
+        case "-":
+            return subtract(n1, n2);
+        case "×":
+            return multiply(n1, n2);
+        case "÷":
+            if (n2 == 0) {
+                body.style.backgroundColor = "coral";
+                return "really :/";
+            }
+            return divide(n1, n2);
+        default:
+            return "ERROR: Unknown operator"
+    }
+}
+
 function doFinalCalculation(arr) {
     const [n1, operator, n2] = arr;
     total = operate(n1, n2, operator);
@@ -76,6 +48,13 @@ function doFinalCalculation(arr) {
 }
 
 function displayText(e) {
+    /*
+    The function updates tempString and allClicks and may perform calculation
+    depending on the button clicked
+        - tempString holds the current (running) number
+        - allClicks holds up to 3 elements: [n1, operator, n2]
+    */
+   
     const click = e.target.textContent;
 
     switch (click) {
@@ -88,7 +67,6 @@ function displayText(e) {
         case "=":
             if (allClicks.length == 0) {
                 if (tempString.length > 0) {
-                    console.log(`Temp: ${tempString}`)
                     allClicks.push(tempString);
                     display.textContent = tempString;
                     tempString = "";
@@ -105,12 +83,10 @@ function displayText(e) {
             } else if (allClicks.length == 3) {
                 if (tempString.length > 0) {
                     allClicks[2] = tempString;
-                    console.log(allClicks);
                     tempString = "";
                     doFinalCalculation(allClicks);
                 }
             }
-            // display.textContent = allClicks.join("");
             break;
         case "+":
         case "-":
