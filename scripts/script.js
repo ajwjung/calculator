@@ -15,6 +15,10 @@ const operate = function(n1, n2, operator) {
         case "×":
             return multiply(n1, n2);
         case "÷":
+            if (n2 == 0) {
+                body.style.backgroundColor = "coral";
+                return "really :/";
+            }
             return divide(n1, n2);
         default:
             return "ERROR: Unknown operator"
@@ -46,6 +50,7 @@ For each button, when clicked...
         - display calculated value
 */
 
+const body = document.querySelector("body");
 const display = document.querySelector(".display-text");
 const displayWindow = document.querySelector(".display-window");
 const buttons = document.querySelectorAll("button");
@@ -75,6 +80,7 @@ function displayText(e) {
 
     switch (click) {
         case "AC":
+            body.style.backgroundColor = "rgb(129, 199, 211)";
             allClicks = [];
             tempString = "";
             display.textContent = "0";
