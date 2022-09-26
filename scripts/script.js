@@ -82,6 +82,7 @@ function displayText(e) {
         case "=":
             if (allClicks.length == 0) {
                 if (tempString.length > 0) {
+                    console.log(`Temp: ${tempString}`)
                     allClicks.push(tempString);
                     display.textContent = tempString;
                     tempString = "";
@@ -115,6 +116,8 @@ function displayText(e) {
                     tempString = "";
                     allClicks.push(click);
                 }
+            } else if (allClicks.length == 1) {
+                allClicks.push(click);
             } else if (allClicks.length == 2) {
                 if (tempString.length > 0) {
                     allClicks.push(tempString);
@@ -157,9 +160,3 @@ function displayText(e) {
             break;
     }
 }
-
-/*
-Things to fix 
-- Clicking a number then the equal sign then trying to perform a string of calculations
-    just concatenates everything onto the display window
-*/
