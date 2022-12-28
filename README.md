@@ -1,5 +1,7 @@
 # Calculator
 
+* [Live Demo](https://ajwjung.github.io/calculator/)
+
 ## Objective
 
 To create a browser version of a calculator using HTMl, CSS, and JavaScript. Full details can be found on [The Odin Project's page](https://www.theodinproject.com/lessons/foundations-calculator).
