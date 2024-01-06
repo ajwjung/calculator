@@ -7,8 +7,10 @@ let allClicks = [];
 let tempString = "";
 
 buttons.forEach(btn => {
-    btn.addEventListener("click", displayText);
-})
+    btn.addEventListener("click", displayTextOnClick);
+});
+
+window.addEventListener("keydown", displayTextOnKeydown);
 
 function getShortString(num) {
     const str = num + ""; // convert number to string
@@ -47,7 +49,127 @@ function doFinalCalculation(arr) {
     display.textContent = getShortString(total);
 }
 
-function displayText(e) {
+function handleDelete(strLength) {
+    /* 
+    The function handles deleting the last pressed button's value/action 
+    from screen and from the existing calculation 
+    */
+    if (strLength > 1) {
+        tempString = tempString.slice(0, strLength - 1);
+        display.textContent = getShortString(tempString);
+    } else if (strLength == 1) {
+        tempString = "0";
+        display.textContent = getShortString(tempString);
+    }
+}
+
+function handleClear() {
+    /* 
+    The function handles clearing the display and the existing calculation.
+    */
+    
+    body.style.backgroundColor = "rgb(129, 199, 211)";
+    allClicks = [];
+    tempString = "";
+    display.textContent = "0";
+}
+
+function handleEquals(strLength, arrLength) {
+    if (arrLength == 0) {
+        if (strLength > 0) {
+            allClicks.push(tempString);
+            display.textContent = getShortString(tempString);
+            tempString = "";
+        }
+    } else if (arrLength == 2) {
+        if (strLength > 0) {
+            allClicks.push(tempString);
+            tempString = "";
+            doFinalCalculation(allClicks);
+        } else {
+            allClicks.push(allClicks[0]);
+            doFinalCalculation(allClicks);
+        };
+    } else if (arrLength == 3) {
+        if (strLength > 0) {
+            allClicks[2] = tempString;
+            tempString = "";
+            doFinalCalculation(allClicks);
+        }
+    }
+}
+
+function handleMathOperation(strLength, arrLength, click) {
+    /* 
+    The function takes the current (running) string's length
+    and the length of the array holding all existing calculations
+    to perform the newest calculation.
+    */
+
+    if (arrLength == 0) {
+        if (strLength > 0) {
+            allClicks.push(tempString);
+            tempString = "";
+            allClicks.push(click);
+        }
+    } else if (arrLength == 1) {
+        allClicks.push(click);
+    } else if (arrLength == 2) {
+        if (strLength > 0) {
+            allClicks.push(tempString);
+            tempString = "";
+            doFinalCalculation(allClicks);
+            allClicks[1] = click;
+        }
+    } else if (arrLength == 3) {
+        if (strLength > 0) {
+            allClicks[2] = tempString;
+            tempString = "";
+            doFinalCalculation(allClicks);
+            allClicks[1] = click;
+        } else {
+            allClicks[1] = click;
+        }
+    }
+}
+
+function handleZeroCalculation(strLength, click) {
+    /* 
+    The function handles calculations involving zero:
+        1. User clicks on 0 when calculator is already cleared
+        2. User clicks on 0 twice in a row when calculator is already cleared
+        3. User clicks on 0 after clicking on other buttons
+    
+    In scenario 2, we don't want to append 0 again so we simply display the number.
+    */
+    if (strLength == 0) {
+        tempString += click;
+        display.textContent = "0";
+    } else if (tempString == "0") {
+        display.textContent = click;
+    } else {
+        tempString += click;
+        display.textContent = tempString;
+    }
+}
+
+function handleDefault(click) {
+    /* 
+    The function handles clicks for numbered buttons
+    and displays them to the calculator "screen".
+    */
+    
+    if (tempString == "0") {
+        tempString = "";
+        tempString += click;
+        display.textContent = getShortString(tempString);
+    } else {
+        tempString += click;
+        display.textContent = getShortString(tempString);
+    }
+}
+
+function displayTextOnClick(e) {
     /*
     The function updates tempString and allClicks and may perform calculation
     depending on the button clicked
@@ -63,95 +185,66 @@ function displayText(e) {
 
     switch (click) {
         case "←":
-            if (strLength > 1) {
-                tempString = tempString.slice(0, strLength - 1);
-                display.textContent = getShortString(tempString);
-            } else if (strLength == 1) {
-                tempString = "0";
-                display.textContent = getShortString(tempString);
-            }
+            handleDelete(strLength);
             break;
         case "AC":
-            body.style.backgroundColor = "rgb(129, 199, 211)";
-            allClicks = [];
-            tempString = "";
-            display.textContent = "0";
+            handleClear();
             break;
         case "=":
-            if (arrLength == 0) {
-                if (strLength > 0) {
-                    allClicks.push(tempString);
-                    display.textContent = getShortString(tempString);
-                    tempString = "";
-                }
-            } else if (arrLength == 2) {
-                if (strLength > 0) {
-                    allClicks.push(tempString);
-                    tempString = "";
-                    doFinalCalculation(allClicks);
-                } else {
-                    allClicks.push(allClicks[0]);
-                    doFinalCalculation(allClicks);
-                };
-            } else if (arrLength == 3) {
-                if (strLength > 0) {
-                    allClicks[2] = tempString;
-                    tempString = "";
-                    doFinalCalculation(allClicks);
-                }
-            }
+            handleEquals(strLength, arrLength);
             break;
         case "+":
         case "-":
         case "×":
         case "÷":
-            if (arrLength == 0) {
-                if (strLength > 0) {
-                    allClicks.push(tempString);
-                    tempString = "";
-                    allClicks.push(click);
-                }
-            } else if (arrLength == 1) {
-                allClicks.push(click);
-            } else if (arrLength == 2) {
-                if (strLength > 0) {
-                    allClicks.push(tempString);
-                    tempString = "";
-                    doFinalCalculation(allClicks);
-                    allClicks[1] = click;
-                }
-            } else if (arrLength == 3) {
-                if (strLength > 0) {
-                    allClicks[2] = tempString;
-                    tempString = "";
-                    doFinalCalculation(allClicks);
-                    allClicks[1] = click;
-                    console.log(allClicks);
-                } else {
-                    allClicks[1] = click;
-                }
-            }
+            handleMathOperation(strLength, arrLength, click);
             break;
         case "0":
-            if (strLength == 0) {
-                tempString += click;
-                display.textContent = "0";
-            } else if (tempString == "0") {
-                display.textContent = click;
-            } else {
-                tempString += click;
-                display.textContent = tempString;
-            }
+            handleZeroCalculation(strLength, click);
             break;
         default:
-            if (tempString == "0") {
-                tempString = "";
-                tempString += click;
-                display.textContent = getShortString(tempString);
-            } else {
-                tempString += click;
-                display.textContent = getShortString(tempString);
-            }
+            handleDefault(click);
             break;
     }
+}
+
+function displayTextOnKeydown(e) {
+    /*
+    The function works exactly like displayTextOnClick() but handles key presses. 
+    */
+
+    const pressedKey = e.code;
+    const strLength = tempString.length;
+    const arrLength = allClicks.length;
+
+    body.style.backgroundColor = "rgb(129, 199, 211)";
+
+    if (e.shiftKey) {
+        // Multiply button was pressed
+        if (pressedKey === "Digit8") {
+            handleMathOperation(strLength, arrLength, "×");            
+        } else if (pressedKey === "Equal") {
+            // Plus button was pressed
+            handleMathOperation(strLength, arrLength, "+");   
+        }
+    } else {
+        if (pressedKey === "Backspace") {
+            handleDelete(strLength);
+        } else if (pressedKey.includes("Digit")) {
+            // A mumber button was pressed
+            handleDefault(pressedKey.slice(-1));
+        } else if (pressedKey === "Minus") {
+            // Minus button was pressed
+            handleMathOperation(strLength, arrLength, "-");
+        } else if (pressedKey === "Slash") {
+            // Divide button was pressed
+            handleMathOperation(strLength, arrLength, "÷");
+        } else if (pressedKey === "Equal" || pressedKey === "Enter") {
+            handleEquals(strLength, arrLength);
+        } else if (pressedKey === "Digit0") {
+            handleZeroCalculation(strLength, pressedKey.slice(-1));
+        } else if (pressedKey === "Escape") {
+            handleClear();
+        }
+    }  
 }
