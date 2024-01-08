@@ -6,18 +6,6 @@ const buttons = document.querySelectorAll("button");
 let allClicks = [];
 let tempString = "";
 
-buttons.forEach(btn => {
-    btn.addEventListener("click", displayTextOnClick);
-});
-
-window.addEventListener("keydown", displayTextOnKeydown);
-
-function getShortString(num) {
-    const str = num + ""; // convert number to string
-
-    return (str.length > 9) ? str.slice(0, 9) : str;
-}
-
 const add = (n1, n2) => parseInt(n1) + parseInt(n2);
 const subtract = (n1, n2) => n1 - n2;
 const multiply = (n1, n2) => n1 * n2;
@@ -43,10 +31,44 @@ function operate(n1, n2, operator) {
 }
 
 function doFinalCalculation(arr) {
+    /* 
+    The function takes an array of two values and an operator
+    and calculates the total, then displays the total rounded to two decimal places.
+    */
+    
     const [n1, operator, n2] = arr;
-    total = operate(n1, n2, operator);
+    const total = operate(n1, n2, operator);
+
     allClicks[0] = total;
-    display.textContent = getShortString(total);
+    display.textContent = total.toFixed(2);
+    shrinkTextToFitContainer(total.toString().length);
+}
+
+function shrinkTextToFitContainer(strLength) {
+    /* 
+    The function compares the text box's width with its parent's width
+    and shrinks the text's font size if its width exceeds its parent's.
+
+    If the string's length is less than 9 characters long,
+    then resize back up to default font size.
+    */
+
+    let fontSize = parseInt(
+        getComputedStyle(display).getPropertyValue('font-size')
+    );
+    const parentWidth = parseInt(
+        getComputedStyle(display.parentElement).getPropertyValue('width')
+    );
+    const DEFAULT_FONT_SIZE = 55;
+
+    while (display.offsetWidth > parentWidth) {
+        display.style.fontSize = fontSize + "px";
+        fontSize -= 1;
+    }
+
+    if (strLength <= 9) {
+        display.style.fontSize = `${DEFAULT_FONT_SIZE}px`;
+    }
 }
 
 function handleDelete(strLength) {
@@ -56,10 +78,12 @@ function handleDelete(strLength) {
     */
     if (strLength > 1) {
         tempString = tempString.slice(0, strLength - 1);
-        display.textContent = getShortString(tempString);
+        display.textContent = tempString;
+        shrinkTextToFitContainer(strLength);
     } else if (strLength == 1) {
         tempString = "0";
-        display.textContent = getShortString(tempString);
+        display.textContent = tempString;
+        shrinkTextToFitContainer(strLength);
     }
 }
 
@@ -78,7 +102,8 @@ function handleEquals(strLength, arrLength) {
     if (arrLength == 0) {
         if (strLength > 0) {
             allClicks.push(tempString);
-            display.textContent = getShortString(tempString);
+            display.textContent = tempString;
+            shrinkTextToFitContainer(strLength);
             tempString = "";
         }
     } else if (arrLength == 2) {
@@ -162,10 +187,12 @@ function handleDefault(click) {
     if (tempString == "0") {
         tempString = "";
         tempString += click;
-        display.textContent = getShortString(tempString);
+        display.textContent = tempString;
+        shrinkTextToFitContainer(tempString.length);
     } else {
         tempString += click;
-        display.textContent = getShortString(tempString);
+        display.textContent = tempString;
+        shrinkTextToFitContainer(tempString.length);
     }
 }
 
@@ -248,3 +275,10 @@ function displayTextOnKeydown(e) {
         }
     }  
 }
+
+// Event listeners to make the calculator's buttons functional
+buttons.forEach(btn => {
+    btn.addEventListener("click", displayTextOnClick);
+});
+
+window.addEventListener("keydown", displayTextOnKeydown);

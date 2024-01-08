@@ -72,14 +72,15 @@ button:hover {
     border-radius: 20px;
     margin-top: 10px;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 55px;
     justify-content: end;
     align-items: center;
 }
 
-.display-window > p {
+.display-text {
     padding-top: 15px;
     padding-right: 10px;
+    font-size: 55px;
+    white-space: nowrap;
 }
 
 .buttons {
