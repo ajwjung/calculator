@@ -34,6 +34,21 @@ The calculator should not evaluate more than a single pair of numbers at a time.
 
 4. Add keyboard support
 
+## Using the Calculator
+
+**Update:** The calculator was revamped and now allows keyboard support for the following keys:
+- `+` for addition
+- `-` for subtraction
+- `*` for multiplication
+- `/` for division
+- `Esc` for clearing/resetting the calculator (equivalent to the "AC" button)
+- `Backspace` for deleting the last entered number
+- `Enter` for finalizing the calculation (equivalent to the `=` button)
+
+The screen will also now automatically resize the number so it fits within the container instead of cutting off at 9 digits.
+
+This is a basic calculator that can perform basic operations (addition, subtraction, multiplication, and division). Floating numbers are currently not accepted input values.
+
 ## Author's Notes
 
 This project was quite enjoyable because I got more practice using event listeners and really had to think about the logic needed to make the calculator work. I also got a glimpse of what it's like to work on a bigger project and having new bugs introduced each time you try to fix something.
@@ -45,8 +60,4 @@ The main challenge I faced was trying to make the calculator properly calculate 
 
 **Next Steps**
 
-At this time, my calculator currently does not allow the user to input floating point numbers. I will likely implement this feature later on when I've thought about how to change the UI in a nice way that can accomodate a new button.
-
-The calculator also does not have keyboard support, primarily because of how I coded the logic to perform calculations. I did play around with it in attempt to add keyboard support, but the only "easy" way is to duplicate the existing `displayText` function and change `click`s to the keypress names. However, it's not good practice to repeat that much code.
-
-So, I hope to revisit this project in the near future and refactor the code to implement those two features.
+At this time, my calculator currently does not allow the user to input floating point numbers. I will likely implement this feature later on when I've thought about how to change the UI in a nice way that can accommodate a new button.
